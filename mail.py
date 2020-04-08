@@ -1,20 +1,20 @@
 import smtplib
 from email.mime.text import MIMEText
-import constant
+from private_info import *
 
 
-def mail(mail_text):
+def mail(mail_text, mail_to):
     # set the mail context
     msg = MIMEText(mail_text)
 
     # set the mail info
     msg['Subject'] = "每日健康打卡通知"
-    msg['From'] = constant.MAIL_USER
-    msg['To'] = constant.MAIL_TO
+    msg['From'] = MAIL_USER
+    msg['To'] = mail_to
 
     # send the mail
     send = smtplib.SMTP_SSL("smtp.qq.com", 465)
-    send.login(constant.MAIL_USER, constant.MAIL_PWD)
+    send.login(MAIL_USER, MAIL_PWD)
     send.send_message(msg)
     # quit QQ EMail
     send.quit()

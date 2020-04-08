@@ -1,7 +1,7 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import constant
+from private_info import *
 import mail
 
 
@@ -11,7 +11,8 @@ def sign_in(uid, pwd):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     # simulate a browser to open the website
-    browser = webdriver.Chrome(options=chrome_options)
+    # browser = webdriver.Chrome(options=chrome_options)
+    browser = webdriver.Chrome()
     browser.get("https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/first0")
 
     # input uid and password
@@ -39,9 +40,19 @@ def sign_in(uid, pwd):
     time.sleep(2)
 
     final_text = browser.find_element_by_xpath("//*[@id='bak_0']/div[2]/div[2]/div[2]/div[2]").text
+
+    # quit the browser
+    browser.quit()
     return final_text
 
 
 if __name__ == "__main__":
-    msg = sign_in(constant.UID, constant.PWD)
-    mail.mail(msg)
+
+    # For Single User
+    # msg = sign_in(UID, PWD)
+    # mail.mail(msg, EMAIL_TO)
+
+    # For Multiple Users
+    for user in users:
+        msg = sign_in(user.uid, user.pwd)
+        mail.mail(msg, user.email)
