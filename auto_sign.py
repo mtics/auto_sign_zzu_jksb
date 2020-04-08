@@ -11,8 +11,7 @@ def sign_in(uid, pwd):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     # simulate a browser to open the website
-    # browser = webdriver.Chrome(options=chrome_options)
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(options=chrome_options)
     browser.get("https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/first0")
 
     # input uid and password
