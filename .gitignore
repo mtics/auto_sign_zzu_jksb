@@ -1,3 +1,6 @@
 constant.py
 __pycache__/*
 .idea/*
+build/*
+dist/*
+auto_sign.spec

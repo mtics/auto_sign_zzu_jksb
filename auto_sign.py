@@ -1,15 +1,18 @@
 import time
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import constant
 import mail
 
 
 def sign_in(uid, pwd):
+
+    # set to no-window
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
     # simulate a browser to open the website
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(options=chrome_options)
     browser.get("https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/first0")
-    # maximize the browser's window
-    browser.maximize_window()
 
     # input uid and password
     browser.find_element_by_xpath("//*[@id='mt_5']/div[1]/div[3]/input").send_keys(uid)
