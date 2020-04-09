@@ -1,14 +1,15 @@
+# -*- coding:gbk -*-
+
 import smtplib
 from email.mime.text import MIMEText
 from private_info import *
-
 
 def mail(mail_text, mail_to):
     # set the mail context
     msg = MIMEText(mail_text)
 
     # set the mail info
-    msg['Subject'] = "姣忔棩鍋ュ悍鎵撳崱閫氱煡"
+    msg['Subject'] = "每日健康打卡通知"
     msg['From'] = MAIL_USER
     msg['To'] = mail_to
 
