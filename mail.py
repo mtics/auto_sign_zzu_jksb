@@ -4,6 +4,7 @@ import smtplib
 from email.mime.text import MIMEText
 from private_info import *
 
+
 def mail(mail_text, mail_to):
     # set the mail context
     msg = MIMEText(mail_text)
@@ -19,6 +20,3 @@ def mail(mail_text, mail_to):
     send.send_message(msg)
     # quit QQ EMail
     send.quit()
-
-
-

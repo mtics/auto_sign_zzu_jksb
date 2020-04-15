@@ -60,6 +60,23 @@ def sign_in(uid, pwd):
     return final_text
 
 
+def timing(hour, minute, the_users):
+    now = datetime.datetime.now()
+    if now.hour == hour and now.minute == minute:
+        print("\n\n\n")
+        print(now)
+        for user in the_users:
+            try:
+                msg = sign_in(user.uid, user.pwd)
+                print("Emailing to User {0} for notification".format(user.uid))
+                mail.mail(msg, user.email)
+                print("Emailing is finished")
+            except Exception as e:
+                exception_text = "while signing in for user "+user.uid+" there is an exception: \n" + str(e)
+                print(exception_text)
+                mail.mail(exception_text, MAIL_ADMAIN)
+
+
 if __name__ == "__main__":
 
     # For Single User
@@ -67,15 +84,24 @@ if __name__ == "__main__":
     # mail.mail(msg, EMAIL_TO)
 
     # For Multiple Users
-    while True:
-        while True:
-            now = datetime.datetime.now()
-            if now.hour == 6 and now.minute == 0:
-                break
-            time.sleep(30)
+    # for user in users:
+    #     msg = sign_in(user.uid, user.pwd)
+    #     print("Emailing to User {0} for notification".format(user.uid))
+    #     mail.mail(msg, user.email)
+    #     print("Emailing is finished")
 
-        for user in users:
-            msg = sign_in(user.uid, user.pwd)
-            print("Emailing to User {0} for notification".format(user.uid))
-            mail.mail(msg, user.email)
-            print("Emailing is finished")
+    # For Timing and Multiple Users
+    while True:
+
+        # sign for tow
+        timing(6, 0, users)
+        # sign for the others
+        timing(9, 0, stus)
+
+        # sleep 30 secs
+        time.sleep(30)
+
+
+
+
+
