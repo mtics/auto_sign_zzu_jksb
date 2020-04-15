@@ -51,3 +51,5 @@ if now.hour == 6 and now.minute == 0:
 ```shell
 nohup python auto_sign.py &
 ```
+
+若脚本需要在windows下运行，则需要将`auto_sign.py`和`mail.py`中的编码修改为`utf-8`
