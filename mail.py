@@ -15,7 +15,7 @@ def mail(mail_text, mail_to):
     msg['To'] = mail_to
 
     # send the mail
-    send = smtplib.SMTP_SSL("smtp.qq.com", 465)
+    send = smtplib.SMTP_SSL("smtp.exmail.qq.com", 465)
     send.login(MAIL_USER, MAIL_PWD)
     send.send_message(msg)
     # quit QQ EMail
