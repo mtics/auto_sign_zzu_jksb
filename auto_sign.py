@@ -8,8 +8,19 @@ from private_info import *
 import mail
 
 
-def sign_in(uid, pwd):
+def is_element_present(browser, xpath):
+    from selenium.common.exceptions import NoSuchElementException
 
+    try:
+        element = browser.find_element_by_xpath(xpath)
+    except NoSuchElementException as e:
+        # print(e)
+        return False
+    else:
+        return True
+
+
+def sign_in(uid, pwd):
     # set to no-window
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -36,8 +47,8 @@ def sign_in(uid, pwd):
 
         print("Checking whether User {0} has signed in".format(uid))
         msg = browser.find_element_by_xpath("//*[@id='bak_0']/div[7]/span").text
-        if msg == "今日您已经填报过了":
-            return msg
+        # if msg == "今日您已经填报过了":
+        #     return msg
 
         # click to fill in
         span_text = browser.find_element_by_xpath("//*[@id='bak_0']/div[13]/div[3]/div[4]/span").text
@@ -53,10 +64,13 @@ def sign_in(uid, pwd):
         browser.find_element_by_xpath("//*[@id='bak_0']/div[19]/div[4]").click()
         time.sleep(2)
 
-        msg = browser.find_element_by_xpath("//*[@id='bak_0']/div[2]/div[2]/div[2]/div[2]").text
+        if is_element_present(browser, "//*[@id='bak_0']/div[2]/div[2]/div[2]/div[2]"):
+            msg = browser.find_element_by_xpath("//*[@id='bak_0']/div[2]/div[2]/div[2]/div[2]").text
+        elif is_element_present(browser, "//*[@id='bak_0']/div[2]"):
+            msg = browser.find_element_by_xpath("//*[@id='bak_0']/div[2]").text
 
     except Exception as e:
-        msg = "while signing in for user "+uid+" there is an exception: \n" + str(e)
+        msg = "while signing in for user " + uid + " there is an exception: \n" + str(e)
         mail.mail(msg, MAIL_ADMAIN)
     finally:
         browser.quit()
@@ -73,14 +87,13 @@ def timing(hour, minute, the_users):
         print(now)
         for user in the_users:
             msg = sign_in(user.uid, user.pwd)
-            msg = user.uid+": "+msg
+            msg = user.uid + ": " + msg
             print("Emailing to User {0} for notification".format(user.uid))
             mail.mail(msg, user.email)
             print("Emailing is finished")
 
 
 if __name__ == "__main__":
-
     # For Single User
     # msg = sign_in(UID, PWD)
     # mail.mail(msg, EMAIL_TO)
@@ -98,12 +111,7 @@ if __name__ == "__main__":
         # sign for tow
         timing(6, 0, users)
         # sign for the others
-        timing(9, 57, stus)
+        timing(8, 30, stus)
 
         # sleep 30 secs
         time.sleep(30)
-
-
-
-
-
